@@ -1,2 +1,2 @@
 
-main: main.cpp graph.cpp
+main: main.cpp graph.cpp tree.cpp
