@@ -2,6 +2,11 @@
 
 using namespace std;
 
+//Project: Dijkstra’s Algorithm
+//Made by:
+//		Kalin Vurbanov, 11286
+//		Momchil Todorov, 11292
+
 int main()
 {
 	Graph g;
