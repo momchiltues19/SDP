@@ -10,24 +10,24 @@ class Graph
 	int* data;
 	int** adjacency;
 
-	void alloc();
-	void alloc_data();
-	void alloc_adj();
-	void erase();
-	void erase_data();
-	void erase_adj();
+	void alloc(); //combination of the two below
+	void alloc_data(); //allocate data array
+	void alloc_adj(); //allocate adjacency matrix
+	void erase(); //combination of the two below
+	void erase_data(); //deallocate data array 
+	void erase_adj(); //deallocate adjacency matrix
 public:
 	Graph();
 	Graph(const Graph& old);
 	Graph& operator =(const Graph& old);
 	~Graph();
 
-	bool are_neigbours(const int i, const int j) const;
+	bool are_neighbours(const int i, const int j) const; //checks if vertices with given ids are neighbours
 
-	friend std::ostream& operator<<(std::ostream& out, const Graph& put);
+	friend std::ostream& operator<<(std::ostream& out, const Graph& put); 
 	friend std::istream& operator>>(std::istream& in, Graph& put);
 
-	friend Tree dijkstra(const Graph& graph, int start);
+	friend Node* dijkstra(const Graph& graph, int start); //the task at hand
 };
 
 

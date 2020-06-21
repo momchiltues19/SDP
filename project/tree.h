@@ -12,26 +12,12 @@ struct Node
 	std::vector<Node*> children;
 }; 
 
-class Tree
-{
-	Node* root;
-public:
-	Tree();
-	Tree(Node*& root);
-	Tree(const Tree& old);
-	Tree& operator=(const Tree& old);
-	~Tree();
-
-	void free(Node*& root);
-	void push(Node*& leaf);
-	void remove(Node*& leaf);
-
-	friend std::ostream& operator<<(std::ostream& out, const Tree& put);
-};
-
+void free(Node*& root); //dealloc
 Node* new_node(int id, int data, int path_weight);
-Node*& min_weight(std::vector<Node*> vertices);
+Node*& min_weight(std::vector<Node*> vertices); //finds and returns Node with minimum path_weight
+void remove(Node*& root, Node*& leaf); //removes all instances of given Node from tree
 
-std::ostream& operator<<(std::ostream& out, const Node& put);
+void print(Node*& put); //prints structural view of tree
+void data_print(Node*& put); //prints information of each node in tree
 
 #endif

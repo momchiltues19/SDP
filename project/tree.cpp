@@ -1,33 +1,7 @@
 #include "tree.h"
 
-Tree::Tree()
-{
-	root = nullptr;
-}
 
-Tree::Tree(Node*& root)
-{
-	this->root = root;
-}
-
-Tree::Tree(const Tree& old)
-{
-	root = old.root;
-}
-
-Tree&  Tree::operator=(const Tree& old)
-{
-	free(root);
-	root = old.root;
-	return *this;
-}
-
-Tree::~Tree()
-{
-	free(root);
-}
-
-void Tree::free(Node*& root)
+void free(Node*& root)
 {
 	if(root != nullptr)
 	{
@@ -39,15 +13,7 @@ void Tree::free(Node*& root)
     }
 }
 
-void Tree::push(Node*& leaf)
-{
-	if(root == nullptr)
-	{
-		root = leaf;
-	}
-}
-
-void Tree::remove(Node*& leaf)
+void remove(Node*& root, Node*& leaf)
 {
 	if(root != nullptr)
 	{
@@ -55,8 +21,7 @@ void Tree::remove(Node*& leaf)
 		{
 			if(!root->children[i]->children.empty())
 			{
-				Tree child(root->children[i]);
-				child.remove(leaf);
+				remove(root->children[i], leaf);
 			}
 			if(root->children[i]->id == leaf->id)
 				root->children.erase(root->children.begin() + i);
@@ -64,18 +29,6 @@ void Tree::remove(Node*& leaf)
 	}
 }
 
-///TODO - Fix recurision
-std::ostream& operator<<(std::ostream& out, const Tree& put)
-{
-	out << put.root;
-
-	for(int i = 0; i < put.root->children.size(); i++)
-	{
-		out << put.root->children[i];
-		out << "|";
-	}
-	return out;
-}
 
 Node* new_node(int id, int data, int path_weight)
 {
@@ -104,10 +57,40 @@ Node*& min_weight(std::vector<Node*> vertices)
 	return vertices[min_id];
 }
 
-
-std::ostream& operator<<(std::ostream& out, const Node*& put)
+void print(Node*& put)
 {
-	out << "---" << put->path_weight << "---" << "v" << put->id << ": " << put->data << std::endl;
-	
-	return out;
+	if(put != nullptr)
+	{
+		std::cout << "v" << put->id;
+
+		for(int i = 0; i < put->children.size(); i++)
+		{
+			if(put->children[i]->children.empty())
+				std::cout << "v" << put->children[i]->id;
+			else
+				print(put->children[i]);
+			std::cout << "|";
+		}
+	}
 }
+
+void data_print(Node*& put)
+{
+	if(put != nullptr)
+	{
+		std::cout << " v" << put->id << ": " << std::endl 
+		          << "   data - " << put->data << std::endl 
+		          << "   path to root - " << put->path_weight << std::endl;
+
+		for(int i = 0; i < put->children.size(); i++)
+		{
+			if(put->children[i]->children.empty())
+				std::cout << " v" << put->children[i]->id << ": " << std::endl 
+		          << "   data - " << put->children[i]->data << std::endl 
+		          << "   path to root - " << put->children[i]->path_weight << std::endl;
+			else
+				data_print(put->children[i]);
+		}
+	}
+}
+

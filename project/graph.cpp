@@ -69,7 +69,7 @@ void Graph::erase_adj()
 }
 
 
-bool Graph::are_neigbours(const int i, const int j) const
+bool Graph::are_neighbours(const int i, const int j) const
 {
 	return adjacency[i][j] > 0;
 }
@@ -77,7 +77,7 @@ bool Graph::are_neigbours(const int i, const int j) const
 
 std::ostream& operator<<(std::ostream& out, const Graph& put)
 {
-	out << "Graph has data:" << std::endl;
+	out << "Graph has data:" << std::endl << " ";
 	for(int i = 0; i < put.size; i++)
 	{
 		out << put.data[i] << " ";
@@ -89,6 +89,8 @@ std::ostream& operator<<(std::ostream& out, const Graph& put)
 	{
 		for(int j = 0; j < put.size; j++)
 		{
+			if(put.adjacency[i][j] >= 0 && put.adjacency[i][j] < 10)
+				out << " ";
 			out << put.adjacency[i][j] << " ";
 		}
 		out << std::endl;
@@ -126,9 +128,9 @@ std::istream& operator>>(std::istream& in, Graph& put)
 	return in;
 }
 
-Tree dijkstra(const Graph& graph, int start)
+Node* dijkstra(const Graph& graph, int start)
 {
-	Tree result;
+	Node* result = nullptr;
 	std::vector<Node*> unvisited;
 
 	for(int i = 0; i < graph.size; i++)
@@ -151,19 +153,20 @@ Tree dijkstra(const Graph& graph, int start)
 			{
 				curr_pos = j;
 			}
-			if(graph.are_neigbours(i, id))
-			{
+			if(graph.are_neighbours(i, id))
+			{ 
 				int distance = curr->path_weight + graph.adjacency[i][id];
-				if(unvisited[id]->path_weight == -1 || distance < unvisited[id]->path_weight)
+				if(unvisited[j]->path_weight <= 0 || distance < unvisited[j]->path_weight)
 				{
-					unvisited[id]->path_weight = distance;
-					result.remove(unvisited[id]);
-					curr->children.push_back(unvisited[id]);
+					unvisited[j]->path_weight = distance;
+					remove(result, unvisited[j]);
+					curr->children.push_back(unvisited[j]);
 				}
 			}
 		}
 		unvisited.erase(unvisited.begin() + curr_pos);
-		result.push(curr);
+		if(result == nullptr)
+			result = curr;
 	}
 
 	return result;
