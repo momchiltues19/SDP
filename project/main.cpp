@@ -9,24 +9,27 @@ using namespace std;
 
 int main()
 {
-	Graph g;
-	Node* t;
+	Graph graph;
+	Node* tree;
+	int num;
 
-	cin >> g;
+	cin >> graph;
+	cout << endl << "Input vertex id: ";
+	cin >> num;
 
-	cout << endl << g << endl;
+	tree = dijkstra(graph, num);
 
-	t = dijkstra(g, 0);
+	cout << endl << graph << endl;
 
 	cout << "Result tree is: " << endl << " ";
-	print(t);
+	print(tree);
 	cout << endl << endl;
 
 	cout << "Information in tree: " << endl;
-	data_print(t);
+	data_print(tree);
 	cout << endl;
 
-	free(t);
+	free(tree);
 
 	return 0;
 }
