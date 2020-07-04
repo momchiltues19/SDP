@@ -10,7 +10,7 @@ int to_int(char);
 
 int main()
 {
-	cout << calculate("(2@(3$4))") << endl;
+	cout << calculate("((2$3)@(3$4))") << endl;
 
 	return 0;
 }
