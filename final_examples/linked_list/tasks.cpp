@@ -60,15 +60,16 @@ Node* copy_list(Node* head)
 	Node* result = new_head;
 	while(head != nullptr)
 	{
-		Node* temp = new Node;
-		temp->data = head->data;
-		temp->next = nullptr;
 		if(new_head == nullptr)
 		{
-			new_head = temp;
+			new_head->data = head->data;
+			new_head->next = nullptr;
 		}
 		else
 		{
+			Node* temp = new Node;
+			temp->data = head->data;
+			temp->next = nullptr;
 			new_head->next = temp;
 		}
 		new_head = new_head->next;
