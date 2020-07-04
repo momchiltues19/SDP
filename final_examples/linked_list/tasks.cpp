@@ -57,18 +57,22 @@ void delete_list(Node*& head)
 Node* copy_list(Node* head)
 {
 	Node* new_head = nullptr;
+	Node* result = new_head;
 	while(head != nullptr)
 	{
 		Node* temp = new Node;
 		temp->data = head->data;
+		temp->next = nullptr;
 		if(new_head == nullptr)
+		{
 			new_head = temp;
+		}
 		else
 		{
-			temp->next = new_head->next;
 			new_head->next = temp;
 		}
+		new_head = new_head->next;
 		head = head->next;
 	}
-	return new_head;
+	return result;
 }
